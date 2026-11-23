@@ -874,6 +874,30 @@
       gap: 5px;
     }
 
+     /* --- เพิ่มใหม่: โทนสีหมวดวิชาและการ์ดที่ยังรอแนบไฟล์ --- */
+     .card-art.thai { background: linear-gradient(145deg, #fff7ed, #fed7aa); }
+     .card-art.social { background: linear-gradient(145deg, #ecfeff, #a5f3fc); }
+     .card-art.police { background: linear-gradient(145deg, #dbeafe, #93c5fd); }
+     .card-art.aptitude { background: linear-gradient(145deg, #f3e8ff, #c4b5fd); }
+     .book.police { background: linear-gradient(145deg,#1e3a8a,#0f172a);border-color:#60a5fa; }
+     .book.aptitude { background: linear-gradient(145deg,#6b21a8,#312e81);border-color:#c084fc; }
+     .card-art.placeholder-art::before {
+       content:"";position:absolute;width:240px;height:240px;border-radius:50%;
+       right:-90px;top:-80px;border:35px solid rgba(255,255,255,.25);pointer-events:none;
+     }
+     .placeholder-art .mini-sheet {
+       width:min(245px,78%);min-height:245px;padding:25px 22px;
+       transform:rotate(-4deg);font-size:12px;line-height:1.8;
+       box-shadow:14px 20px 35px rgba(15,23,42,.13);
+     }
+     .placeholder-art .mini-sheet strong { font-size:17px;line-height:1.5; }
+     .placeholder-art .mini-sheet .icon { width:54px;height:54px;margin:20px auto; }
+     .placeholder-art .mini-sheet .sheet-foot {font-size:10px;color:#94a3b8;}
+     .tag.pending { background:#fff7ed;color:#9a3412; }
+     .pending-price {display:inline-flex;align-items:center;gap:5px;color:#9a3412;font-size:12px;font-weight:700;}
+     .pending-price .icon {width:15px;height:15px;}
+     .dialog-price small {font-size:13px;font-weight:500;color:var(--muted);}
+
     /* --- Empty State --- */
     .empty-state {
       text-align: center;
@@ -1614,6 +1638,10 @@
     <symbol id="i-logic" viewBox="0 0 24 24"><path d="M9 3h6v6H9zM3 15h6v6H3zM15 15h6v6h-6zM12 9v3M6 15v-3h12v3"/></symbol>
     <symbol id="i-cylinder" viewBox="0 0 24 24"><ellipse cx="12" cy="5" rx="7" ry="3"/><path d="M5 5v14c0 4 14 4 14 0V5M5 18c0 4 14 4 14 0"/></symbol>
     <symbol id="i-copy" viewBox="0 0 24 24"><rect x="8" y="8" width="12" height="13" rx="2"/><path d="M16 8V3H4v13h4"/></symbol>
+    <symbol id="i-thai" viewBox="0 0 24 24"><path d="M4 7h16M7 4v13M17 4v13M7 12h10M5 20h14"/></symbol>
+    <symbol id="i-social" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c-5 5-5 13 0 18M12 3c5 5 5 13 0 18M5 7h14M5 17h14"/></symbol>
+    <symbol id="i-police" viewBox="0 0 24 24"><path d="M12 2 4 5v6c0 5 3.5 8.6 8 11 4.5-2.4 8-6 8-11V5zM9 12l2 2 4-4"/></symbol>
+    <symbol id="i-aptitude" viewBox="0 0 24 24"><circle cx="12" cy="12" r="2"/><ellipse cx="12" cy="12" rx="10" ry="4" transform="rotate(45 12 12)"/><ellipse cx="12" cy="12" rx="10" ry="4" transform="rotate(-45 12 12)"/></symbol>
     <symbol id="i-facebook" viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></symbol>
   </svg>
 
@@ -1706,13 +1734,22 @@
             <option value="science">วิทยาศาสตร์</option>
             <option value="english">ภาษาอังกฤษ</option>
             <option value="reasoning">คิดวิเคราะห์ / ก.พ.</option>
+            <option value="thai">ภาษาไทย</option>
+            <option value="social">สังคมศึกษา</option>
+            <option value="police">ข้อสอบตำรวจ</option>
+            <option value="aptitude">TGAT / TPAT</option>
           </select>
           <select class="select-control" id="grade" aria-label="เลือกระดับชั้น">
             <option value="all">ทุกระดับชั้น</option>
             <option value="m1">ม.1 / เข้า ม.1</option>
             <option value="m2">ม.2</option>
             <option value="m3">ม.3</option>
-            <option value="m4">เข้า ม.4</option>
+            <option value="m4">ม.4 / เข้า ม.4</option>
+            <option value="m5">ม.5</option>
+            <option value="m6">ม.6</option>
+            <option value="entrance">สอบเข้ามหาวิทยาลัย / TGAT–TPAT</option>
+            <option value="Te">ครูผู้ช่วย</option>
+            <option value="police">สอบตำรวจ</option>
             <option value="gp">ก.พ.</option>
           </select>
         </div>
@@ -1921,8 +1958,63 @@
       {id:"paid-m4-math",type:"paid",subject:"T",grade:"Te",title:"ครูผู้ช่วย",description:"ข้าราชการที่ดี คิดวิเคราะห์ อังกฤษ วิชาละ500ข้อ",level:"แนวข้อสอบ",units:1500,unitLabel:"ข้อ",price:70,downloadUrl:"",
       coverUrl:"ครูผู้ช่วย.jpg", // <-- ใส่ชื่อไฟล์ปกหนังสือตรงนี้
       previewImages:[],topics:["สมการและพหุนาม","เรขาคณิตและทฤษฎีบทพีทาโกรัส","สถิติและความน่าจะเป็น"]},
-      
+
+      // ★ การ์ดใหม่ 1: ตำรวจอำนวยการ/ปราบปราม (6 วิชา วิชาละ 300 ข้อ รวม 1,800 ข้อ)
+      // หากมีภาพปกจริง ให้ระบุ coverUrl:"police-cover.jpg"
+      {id:"paid-police", type:"paid", subject:"police",grade:"police",
+       title:"ข้อสอบตำรวจ อำนวยการ / ปราบปราม",
+       description:"ครบ 6 วิชา วิชาละ 300 ข้อ รวม 1,800 ข้อ พร้อมเฉลยละเอียด",
+       level:"เตรียมสอบตำรวจ",units:1800,unitLabel:"ข้อ",price:75,priceUnit:"ชุด",
+       bookTitle:"POLICE EXAM",bookLabel:"6 วิชา • 1,800 ข้อ",
+       downloadUrl:"",coverUrl:"Police Exam Prep Infographic Poster.png",previewImages:[],
+       topics:["ความสามารถทั่วไป","ภาษาไทย","คอมพิวเตอร์","งานสารบรรณ","กฎหมาย","ภาษาอังกฤษ","อำนวยการ","ปราบปราม"]},
+
+      // ★ การ์ดใหม่ 2: TGAT1-3 + TPAT1, 3, 5 (6 วิชา วิชาละ 500 ข้อ)
+      // ราคา 70 บาท/วิชา ไม่ใช่ราคารวมทั้งชุด
+      {id:"paid-tgat-tpat", type:"paid",subject:"aptitude",grade:"entrance",
+       title:"ข้อสอบ TGAT 1–3 และ TPAT 1, 3, 5",
+       description:"รวม TGAT1, TGAT2, TGAT3, TPAT1, TPAT3 และ TPAT5 วิชาละ 500 ข้อ พร้อมเฉลยละเอียด",
+       level:"เตรียมสอบเข้ามหาวิทยาลัย",units:3000,unitLabel:"ข้อ",price:70,priceUnit:"วิชา",
+       bookTitle:"TGAT / TPAT",bookLabel:"500 ข้อ / วิชา",
+       downloadUrl:"",coverUrl:"Colorful TGAT-TPAT Exam Prep Poster.png",previewImages:[],
+       topics:["TGAT1","TGAT2","TGAT3","TPAT1","TPAT3","TPAT5","ความถนัด","เตรียมสอบ"]},
+
     ];
+
+    // ================================================================
+    // ★ เพิ่มใหม่: ใบงานฟรี 20 การ์ด
+    // ใส่ชื่อไฟล์ PDF ใน downloadUrl และรูปปกใน coverUrl ของแต่ละรายการ
+    // ถ้ายังไม่ได้อัปโหลด ให้เว้น "" เว็บจะขึ้น "ยังไม่แนบ PDF" อย่างชัดเจน
+    // สามารถเพิ่มรายการแบบเดียวกันใน array นี้ได้เรื่อย ๆ โดยไม่แก้ HTML การ์ด
+    // ================================================================
+    const EXTRA_FREE_WORKSHEETS = [
+      {id:"free-fractions",subject:"math",grade:"m1",title:"เศษส่วนและจำนวนคละ",description:"ทบทวนการบวก ลบ คูณ หารเศษส่วนและจำนวนคละ",topics:["เศษส่วน","จำนวนคละ","การคำนวณ"],level:"พื้นฐาน",downloadUrl:"เศษส่วน.pdf",coverUrl:"frac1.jpeg"},
+      {id:"free-integers",subject:"math",grade:"m1",title:"จำนวนเต็มและเส้นจำนวน",description:"ฝึกเปรียบเทียบจำนวนเต็มและคำนวณจำนวนบวกกับจำนวนลบ",topics:["จำนวนเต็ม","เส้นจำนวน","จำนวนลบ"],level:"พื้นฐาน",downloadUrl:"",coverUrl:""},
+      {id:"free-ratio",subject:"math",grade:"m2",title:"อัตราส่วนและร้อยละ",description:"ฝึกอัตราส่วน สัดส่วน ร้อยละ และโจทย์ประยุกต์",topics:["อัตราส่วน","สัดส่วน","ร้อยละ"],level:"พื้นฐาน–ปานกลาง",downloadUrl:"อัตราส่วนร้อยละ.pdf",coverUrl:"ratio.jpeg"},
+      {id:"free-linear-equations",subject:"math",grade:"m2",title:"สมการเชิงเส้นตัวแปรเดียว",description:"ฝึกแก้สมการและตรวจสอบคำตอบอย่างเป็นขั้นตอน",topics:["สมการเชิงเส้น","ย้ายข้าง","แก้สมการ"],level:"พื้นฐาน",downloadUrl:"",coverUrl:""},
+      {id:"free-polynomials",subject:"math",grade:"m2",title:"พหุนามและการแยกตัวประกอบ",description:"ทบทวนการบวก ลบ คูณพหุนามและการแยกตัวประกอบ",topics:["พหุนาม","การแยกตัวประกอบ"],level:"ปานกลาง",downloadUrl:"",coverUrl:""},
+      {id:"free-pythagoras",subject:"math",grade:"m2",title:"ทฤษฎีบทพีทาโกรัส",description:"ฝึกหาความยาวด้านของสามเหลี่ยมมุมฉากและโจทย์ประยุกต์",topics:["สามเหลี่ยมมุมฉาก","พีทาโกรัส","เรขาคณิต"],level:"ปานกลาง",downloadUrl:"",coverUrl:""},
+      {id:"free-similarity",subject:"math",grade:"m3",title:"ความคล้ายของรูปสามเหลี่ยม",description:"ฝึกใช้สัดส่วนของด้านและสมบัติของรูปที่คล้ายกัน",topics:["รูปคล้าย","สัดส่วน","สามเหลี่ยม"],level:"ปานกลาง",downloadUrl:"",coverUrl:""},
+      {id:"free-quadratic",subject:"math",grade:"m3",title:"สมการกำลังสอง",description:"ฝึกหาคำตอบของสมการกำลังสองด้วยวิธีต่าง ๆ",topics:["สมการกำลังสอง","การแยกตัวประกอบ","สูตรสมการ"],level:"ปานกลาง",downloadUrl:"",coverUrl:""},
+      {id:"free-statistics",subject:"math",grade:"m3",title:"สถิติและการแปลความหมายข้อมูล",description:"ฝึกอ่านกราฟและคำนวณค่าเฉลี่ย มัธยฐาน และฐานนิยม",topics:["ค่าเฉลี่ย","มัธยฐาน","ฐานนิยม","สถิติ"],level:"พื้นฐาน",downloadUrl:"",coverUrl:""},
+      {id:"free-functions",subject:"math",grade:"m4",title:"ฟังก์ชันและกราฟ",description:"ทบทวนโดเมน เรนจ์ และการอ่านกราฟฟังก์ชัน",topics:["ฟังก์ชัน","โดเมน","เรนจ์","กราฟ"],level:"ปานกลาง",downloadUrl:"",coverUrl:""},
+      {id:"free-exponents",subject:"math",grade:"m4",title:"เลขยกกำลังและกรณฑ์",description:"ฝึกกฎเลขยกกำลัง การจัดรูปกรณฑ์ และการแก้โจทย์",topics:["เลขยกกำลัง","กรณฑ์","รากที่สอง"],level:"พื้นฐาน–ปานกลาง",downloadUrl:"",coverUrl:""},
+      {id:"free-logs",subject:"math",grade:"m5",title:"ลอการิทึมเบื้องต้น",description:"ฝึกใช้สมบัติลอการิทึมและแก้สมการลอการิทึม",topics:["ลอการิทึม","สมบัติลอการิทึม"],level:"ปานกลาง",downloadUrl:"",coverUrl:""},
+      {id:"free-trigonometry",subject:"math",grade:"m5",title:"อัตราส่วนตรีโกณมิติ",description:"ทบทวน sin cos tan และการใช้ความสัมพันธ์ของมุม",topics:["ตรีโกณมิติ","sin","cos","tan"],level:"ปานกลาง",downloadUrl:"",coverUrl:""},
+      {id:"free-cells",subject:"science",grade:"m1",title:"เซลล์และส่วนประกอบของเซลล์",description:"รู้จักหน้าที่ของออร์แกเนลล์และความแตกต่างของเซลล์",topics:["เซลล์","สิ่งมีชีวิต","ออร์แกเนลล์"],level:"พื้นฐาน",downloadUrl:"",coverUrl:""},
+      {id:"free-forces",subject:"science",grade:"m2",title:"แรงและการเคลื่อนที่",description:"ทบทวนแรงลัพธ์และผลของแรงต่อการเคลื่อนที่",topics:["แรง","การเคลื่อนที่","แรงลัพธ์"],level:"พื้นฐาน",downloadUrl:"",coverUrl:""},
+      {id:"free-electricity",subject:"science",grade:"m3",title:"วงจรไฟฟ้าเบื้องต้น",description:"ฝึกอ่านวงจรไฟฟ้าและความสัมพันธ์ของกระแสกับแรงดัน",topics:["วงจรไฟฟ้า","กระแสไฟฟ้า","แรงดัน"],level:"ปานกลาง",downloadUrl:"",coverUrl:""},
+      {id:"free-vocabulary",subject:"english",grade:"m1",title:"English Vocabulary",description:"ทบทวนคำศัพท์และการใช้คำศัพท์ในประโยคสั้น ๆ",topics:["Vocabulary","คำศัพท์","ภาษาอังกฤษ"],level:"พื้นฐาน",downloadUrl:"",coverUrl:""},
+      {id:"free-reading",subject:"english",grade:"m3",title:"Reading Comprehension",description:"ฝึกอ่านใจความสำคัญและตอบคำถามจากเรื่องอ่าน",topics:["Reading","Main Idea","Comprehension"],level:"ปานกลาง",downloadUrl:"",coverUrl:""},
+      {id:"free-thai-reading",subject:"thai",grade:"m2",title:"ภาษาไทย การอ่านจับใจความ",description:"ฝึกแยกใจความสำคัญ ข้อเท็จจริง และข้อคิดเห็น",topics:["ภาษาไทย","การอ่านจับใจความ","ข้อเท็จจริง"],level:"พื้นฐาน",downloadUrl:"",coverUrl:""},
+      {id:"free-civics",subject:"social",grade:"m3",title:"สังคมศึกษา หน้าที่พลเมือง",description:"ทบทวนสิทธิ หน้าที่ และการอยู่ร่วมกันในสังคม",topics:["สังคมศึกษา","หน้าที่พลเมือง","สิทธิ"],level:"พื้นฐาน",downloadUrl:"",coverUrl:""}
+    ];
+    // จำนวนข้อยังไม่ระบุ เพราะรายการเหล่านี้เป็นการ์ดเตรียมเพิ่มไฟล์ ไม่ใช่ PDF ที่สร้างแล้ว
+    const newFreeCards = EXTRA_FREE_WORKSHEETS.map(item=>({
+      type:"free",units:null,unitLabel:"ข้อ",price:0,previewImages:[],...item
+    }));
+    // แทรกหลัง 6 ใบงานเดิม ก่อนการ์ดชุดข้อสอบ ไม่แก้หรือลบข้อมูลเดิม
+    ITEMS.splice(6,0,...newFreeCards);
 
     // ================================================================
     // 3) ตัวอย่างข้อสอบแยกวิชา — แก้ PDF และรูปตรงนี้
@@ -1955,14 +2047,33 @@
         {name:"ข้าราชการที่ดี", subjectKey:"reasoning", pdfUrl:"ครูผู้ช่วยข้าราชการที่ดี.pdf", previewImages:[]},
         {name:"คิดวิเคราะห์", subjectKey:"reasoning", pdfUrl:"ครูผู้ช่วยคิดวิเคราะห์.pdf", previewImages:[]},
         {name:"ภาษาอังกฤษ", subjectKey:"english", pdfUrl:"ครูผู้ช่วยอังกฤษ.pdf", previewImages:[]}
+      ],
+      // ★ แก้ pdfUrl และ previewImages ตรงรายการวิชาของการ์ดใหม่ทั้งสองใบ
+      // ตัวอย่าง: pdfUrl:"samples/police-law.pdf", previewImages:["images/law-1.jpg"]
+      // ตอนนี้เว้นว่างโดยตั้งใจ เพราะยังไม่ได้แนบไฟล์ภาพหรือ PDF ตัวอย่างมาด้วย
+      "paid-police": [
+        {name:"ความสามารถทั่วไป",subjectKey:"reasoning",pdfUrl:"ความสามารถทั่วไป.pdf",previewImages:[]},
+        {name:"ภาษาไทย",subjectKey:"thai",pdfUrl:"ไทย.pdf",previewImages:[]},
+        {name:"คอมพิวเตอร์",subjectKey:"police",pdfUrl:"คอม.pdf",previewImages:[]},
+        {name:"งานสารบรรณ",subjectKey:"police",pdfUrl:"สารบรรณ.pdf",previewImages:[]},
+        {name:"กฎหมาย",subjectKey:"police",pdfUrl:"กฎหมาย.pdf",previewImages:[]},
+        {name:"ภาษาอังกฤษ",subjectKey:"english",pdfUrl:"อังกฤษ.pdf",previewImages:[]}
+      ],
+      "paid-tgat-tpat": [
+        {name:"TGAT1 การสื่อสารภาษาอังกฤษ",subjectKey:"english",pdfUrl:"ตัวอย่างtgat1.pdf",previewImages:[]},
+        {name:"TGAT2 การคิดอย่างมีเหตุผล",subjectKey:"reasoning",pdfUrl:"ตัวอย่างtgat2.pdf",previewImages:[]},
+        {name:"TGAT3 สมรรถนะการทำงาน",subjectKey:"reasoning",pdfUrl:"ตัวอย่างtgat3.pdf",previewImages:[]},
+        {name:"TPAT1 ความถนัดแพทย์",subjectKey:"science",pdfUrl:"ตัวอย่างtpat1.pdf",previewImages:[]},
+        {name:"TPAT3 ความถนัดวิทยาศาสตร์ เทคโนโลยี วิศวกรรมศาสตร์",subjectKey:"science",pdfUrl:"ตัวอย่างtpat3.pdf",previewImages:[]},
+        {name:"TPAT5 ความถนัดครุศาสตร์/ศึกษาศาสตร์",subjectKey:"aptitude",pdfUrl:"ตัวอย่างtpat5.pdf",previewImages:[]}
       ]
     };
     const PREVIEW_SETTINGS = {hoverInterval:2200}; // หน่วยมิลลิวินาที: 2200 = 2.2 วินาที
 
 
-    const SUBJECTS = {math:"คณิตศาสตร์",science:"วิทยาศาสตร์",english:"ภาษาอังกฤษ",reasoning:"คิดวิเคราะห์",all:"คณิต วิทย์ อังกฤษ",Alevel:"math1 math2 eng science",T:"คิดวิเคราะห์ ข้าราชการที่ดี อังกฤษ"};
-    const GRADES = {m1:"ม.1",m2:"ม.2",m3:"ม.3",m4:"ม.4",m5:"ม.5",m6:"ม.6",m13:"ม.ต้น",m46:"ม.ปลาย",entrance:"เข้ามหาวิทยาลัย",Te:"สอบราชการ"};
-    const ICONS = {math:"grid",science:"science",english:"english",reasoning:"logic"};
+    const SUBJECTS = {math:"คณิตศาสตร์",science:"วิทยาศาสตร์",english:"ภาษาอังกฤษ",thai:"ภาษาไทย",social:"สังคมศึกษา",reasoning:"คิดวิเคราะห์",police:"ข้อสอบตำรวจ 6 วิชา",aptitude:"TGAT / TPAT",all:"คณิต วิทย์ อังกฤษ",Alevel:"math1 math2 eng science",T:"คิดวิเคราะห์ ข้าราชการที่ดี อังกฤษ"};
+    const GRADES = {m1:"ม.1",m2:"ม.2",m3:"ม.3",m4:"ม.4",m5:"ม.5",m6:"ม.6",m13:"ม.ต้น",m46:"ม.ปลาย",entrance:"เข้ามหาวิทยาลัย",Te:"สอบราชการ",police:"สอบตำรวจ"};
+    const ICONS = {math:"grid",science:"science",english:"english",reasoning:"logic",thai:"thai",social:"social",police:"police",aptitude:"aptitude"};
     const state = {mode:"all",query:"",subject:"all",grade:"all",sort:"latest"};
     const $ = id => document.getElementById(id);
     const esc = value => String(value).replace(/[&<>"']/g, char => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[char]));
@@ -1981,19 +2092,26 @@
     document.title=`${CONFIG.brand} — ใบงานพร้อมใช้ ข้อสอบพร้อมฝึก`;
     $("year").textContent=new Date().getFullYear();
 
-    // [จุดที่ปรับแก้ 4] ให้แสดงป้ายจำนวนข้อ (.book-sticker) ทับบนรูปปกจริงของชุดข้อสอบด้วย
+    // แสดงเลขจำนวนข้อพร้อมคั่นหลักพัน โดยยังรองรับรูปแบบเดิม เช่น "50+"
+    function formatQuantity(item){
+      const number=typeof item.units==="number"?item.units.toLocaleString("en-US"):item.units;
+      return `${esc(number)} ${esc(item.unitLabel)}`;
+    }
+    // [เพิ่มเติม] การ์ดใหม่ไม่มีภาพปกก็แสดงภาพประกอบจำลองได้โดยไม่ต้องโหลดรูป
     function cardArt(item){
       const cover=safeUrl(item.coverUrl);
-      const sticker=item.type==="paid"?`<div class="book-sticker">${item.units} ${esc(item.unitLabel)}<span>ดูตัวอย่างก่อนซื้อ</span></div>`:"";
+      const sticker=item.type==="paid"?`<div class="book-sticker">${formatQuantity(item)}<span>ดูรายละเอียดแยกวิชา</span></div>`:"";
       if(cover) return `<div class="card-art ${esc(item.subject)}"><span class="card-art-label">${item.type==="free"?"FREE PDF":"EXAM SET"}</span><img src="${esc(cover)}" alt="ปก ${esc(item.title)}" loading="lazy" onerror="this.style.visibility='hidden'">${sticker}</div>`;
-      const glyph=item.id==="free-cylinder"?"cylinder":ICONS[item.subject];
-      if(item.type==="free") return `<div class="card-art ${esc(item.subject)}"><span class="card-art-label">WORKSHEET / PDF</span><div class="mini-sheet"><div class="paper-topline" style="height:3px;width:23px;margin-bottom:7px"></div><strong>${esc(item.title)}</strong><span>ชื่อ __________ ชั้น ____</span><div class="mini-sheet-line"></div>${icon(glyph)}<span>1. ${esc(item.questions[0])}</span><div class="mini-sheet-line"></div><span>2. ฝึกคิดและเขียนคำตอบ</span></div></div>`;
-      const grade=item.grade==="gp"?"ก.พ.":`เข้า ${GRADES[item.grade].replace("เข้า ","")}`;
-      return `<div class="card-art ${esc(item.subject)}"><span class="card-art-label">EXAM PRACTICE / PDF</span><div class="book ${esc(item.subject)}"><div><div class="book-kicker">PRACTICE & LEARN</div><strong>${esc(SUBJECTS[item.subject])}</strong><span>${esc(grade)}</span></div>${icon(glyph)}<div class="book-footer">ฝึกคิด • ทบทวน • เตรียมพร้อม</div></div>${sticker}</div>`;
+      const glyph=ICONS[item.subject]||"book";
+      if(item.type==="free") return `<div class="card-art ${esc(item.subject)} placeholder-art"><span class="card-art-label">WORKSHEET / PDF</span><div class="mini-sheet"><div class="paper-topline"></div><strong>${esc(item.title)}</strong><span>${esc(GRADES[item.grade])} · ${esc(SUBJECTS[item.subject])}</span><div class="mini-sheet-line"></div>${icon(glyph)}<span>หัวข้อ: ${esc(item.topics?.[0]||"ฝึกทบทวน")}</span><div class="mini-sheet-line"></div><span class="sheet-foot">${item.downloadUrl?"พร้อมเปิดไฟล์ PDF":"เตรียมแนบไฟล์ PDF"}</span></div></div>`;
+      const grade=item.bookLabel||(item.grade==="gp"?"ก.พ.":`เข้า ${GRADES[item.grade].replace("เข้า ","")}`);
+      return `<div class="card-art ${esc(item.subject)}"><span class="card-art-label">EXAM PRACTICE / PDF</span><div class="book ${esc(item.subject)}"><div><div class="book-kicker">PRACTICE & LEARN</div><strong>${esc(item.bookTitle||SUBJECTS[item.subject])}</strong><span>${esc(grade)}</span></div>${icon(glyph)}<div class="book-footer">ฝึกคิด • ทบทวน • เตรียมพร้อม</div></div>${sticker}</div>`;
     }
 
     function card(item){
-      return `<article class="resource-card">${cardArt(item)}<div class="card-body"><div class="tag-row"><span class="tag ${item.type}">${item.type==="free"?"แจกฟรี":"ชุดข้อสอบ"}</span><span class="tag">${esc(SUBJECTS[item.subject])} · ${esc(GRADES[item.grade])}</span></div><h3>${esc(item.title)}</h3><p class="card-description">${esc(item.description)}</p><div class="card-meta"><span>${icon("file")}${item.units} ${esc(item.unitLabel)}</span><span>${icon("book")}${esc(item.level)}</span></div><div class="card-bottom">${item.type==="free"?`<span class="free-price">${icon("check")}ดาวน์โหลดฟรี</span>`:`<span class="price">฿${item.price}<small>/ วิชา</small></span>`}<button class="button ${item.type==="free"?"secondary":"primary"} small" data-open="${esc(item.id)}" aria-label="ดูรายละเอียด ${esc(item.title)}">${item.type==="free"?"ดูใบงาน":"ดูรายละเอียด"}${icon("arrow")}</button></div></div></article>`;
+      const awaitingPdf=item.type==="free"&&!item.downloadUrl;
+      const unitText=item.units==null?"รอเพิ่มไฟล์":formatQuantity(item);
+      return `<article class="resource-card">${cardArt(item)}<div class="card-body"><div class="tag-row"><span class="tag ${item.type}">${item.type==="free"?"แจกฟรี":"ชุดข้อสอบ"}</span>${awaitingPdf?'<span class="tag pending">รอเพิ่ม PDF</span>':""}<span class="tag">${esc(SUBJECTS[item.subject])} · ${esc(GRADES[item.grade])}</span></div><h3>${esc(item.title)}</h3><p class="card-description">${esc(item.description)}</p><div class="card-meta"><span>${icon("file")}${unitText}</span><span>${icon("book")}${esc(item.level)}</span></div><div class="card-bottom">${item.type==="free"?(awaitingPdf?`<span class="pending-price">${icon("file")}ยังไม่แนบ PDF</span>`:`<span class="free-price">${icon("check")}ดาวน์โหลดฟรี</span>`):`<span class="price">฿${item.price}<small>/ ${esc(item.priceUnit||"วิชา")}</small></span>`}<button class="button ${item.type==="free"?"secondary":"primary"} small" data-open="${esc(item.id)}" aria-label="ดูรายละเอียด ${esc(item.title)}">${item.type==="free"?"ดูใบงาน":"ดูรายละเอียด"}${icon("arrow")}</button></div></div></article>`;
     }
 
     function filteredItems(){
@@ -2006,8 +2124,9 @@
     function render(){
       const items=filteredItems(), free=items.filter(x=>x.type==="free"), paid=items.filter(x=>x.type==="paid");
       const compact=state.mode==="all"&&!state.query.trim()&&state.subject==="all"&&state.grade==="all"&&state.sort==="latest";
-      $("free-grid").innerHTML=(compact?free.slice(0,3):free).map(card).join("");
-      $("paid-grid").innerHTML=(compact?paid.slice(0,3):paid).map(card).join("");
+      // หน้าแรกแสดงใบงานฟรี 6 ใบ และชุดข้อสอบ 6 ชุด; กดดูทั้งหมดเพื่อแสดงใบงานฟรีครบ 26 ใบ
+      $("free-grid").innerHTML=(compact?free.slice(0,6):free).map(card).join("");
+      $("paid-grid").innerHTML=(compact?paid.slice(0,6):paid).map(card).join("");
       $("free-group").hidden=free.length===0;
       $("paid-group").hidden=paid.length===0;
       $("empty-state").hidden=items.length>0;
@@ -2155,6 +2274,12 @@
         imageSources=hasSamples?subject.previewImages:(cover?[cover]:[]);
         slideIndex=0;
         $("preview-subject-title").textContent=subject.name;
+        // ราคารายวิชา: คัดลอกแล้วได้ชื่อวิชาที่เลือกจริง (ชุดตำรวจคิดราคาทั้งชุด)
+        const orderText=$("order-message");
+        if(orderText) {
+          const which=item.priceUnit==="วิชา"&&subjects.length>1?` วิชา${subject.name}`:"";
+          orderText.value=`สนใจ${item.title}${which} ราคา ${item.price} บาท/${item.priceUnit||"วิชา"} ขอสอบถามรายละเอียดและวิธีสั่งซื้อค่ะ/ครับ`;
+        }
         document.querySelectorAll("[data-subject-card]").forEach((card,i)=>{
           card.classList.toggle("active",i===activeSubject);
           card.querySelector("[data-select-subject]")?.setAttribute("aria-pressed",String(i===activeSubject));
@@ -2277,7 +2402,7 @@
       cleanupPreview();
       const subjects=previewSubjects(item);
       const download=safeUrl(item.downloadUrl);
-      const message=`สนใจ${item.title} ราคา ${item.price} บาท ขอสอบถามรายละเอียดและวิธีสั่งซื้อค่ะ/ครับ`;
+      const message=`สนใจ${item.title} ราคา ${item.price} บาท/${item.priceUnit||"วิชา"} ขอสอบถามรายละเอียดและวิธีสั่งซื้อค่ะ/ครับ`;
       const subjectOptions=item.type==="paid"?`<section class="subject-section" aria-labelledby="subject-heading">
         <h3 id="subject-heading">เลือกดูตัวอย่างแต่ละวิชา</h3>
         <p>วางเมาส์หรือกดชื่อวิชาเพื่อดูภาพ • กด “ดู PDF” เพื่ออ่านไฟล์ตัวอย่าง</p>
@@ -2295,7 +2420,7 @@
         </div>
         <div class="preview-panel" id="preview-media"></div><p class="preview-label" id="preview-caption"></p>
       </div><div class="dialog-details"><div class="tag-row"><span class="tag ${item.type}">${item.type==="free"?"ใบงานฟรี":"ชุดข้อสอบ"}</span><span class="tag">${item.type==="paid"?subjects.length+" วิชา":esc(SUBJECTS[item.subject])}</span></div><h2 id="dialog-title">${esc(item.title)}</h2><p class="dialog-description">${esc(item.description)}</p>
-        ${subjectOptions}<div class="detail-facts"><div class="fact"><span>ระดับชั้น</span>${esc(GRADES[item.grade])}</div><div class="fact"><span>ระดับความยาก</span>${esc(item.level)}</div><div class="fact"><span>จำนวน</span>${esc(item.units)} ${esc(item.unitLabel)}</div><div class="fact"><span>รูปแบบไฟล์</span>PDF</div></div><div class="dialog-price">${item.type==="free"?"ฟรี":`฿${item.price}`}</div><div class="dialog-actions">${item.type==="free"?(download?`<a class="button primary" href="${esc(download)}" target="_blank" rel="noopener noreferrer">${icon("download")}เปิดไฟล์ PDF</a>`:`<button class="button primary" disabled>${icon("download")}ดาวน์โหลด PDF</button>`):`<a class="button line" href="${esc(lineUrl)}" target="_blank" rel="noopener noreferrer">${icon("chat")}สั่งซื้อ LINE</a><a class="button facebook" href="${esc(CONFIG.facebookUrl)}" target="_blank" rel="noopener noreferrer">${icon("facebook")}สั่งซื้อ Facebook</a><button class="button secondary" id="copy-order">${icon("copy")}คัดลอกชื่อชุด</button>`}</div><p class="dialog-footnote">${item.type==="free"?(download?"เปิดไฟล์ PDF เพื่อบันทึกหรือพิมพ์ใบงาน":"รายการตัวอย่างนี้ยังไม่ได้เพิ่มไฟล์ PDF"):`คัดลอกข้อความด้านล่าง แล้วส่งให้ร้านใน LINE หรือ Facebook`}</p>${item.type==="paid"?`<textarea class="order-message" id="order-message" readonly aria-label="ข้อความสั่งซื้อ">${esc(message)}</textarea>`:""}</div>`;
+        ${subjectOptions}<div class="detail-facts"><div class="fact"><span>ระดับชั้น</span>${esc(GRADES[item.grade])}</div><div class="fact"><span>ระดับความยาก</span>${esc(item.level)}</div><div class="fact"><span>จำนวน</span>${item.units==null?"ยังไม่ระบุ":formatQuantity(item)}</div><div class="fact"><span>รูปแบบไฟล์</span>${item.type==="free"&&!download?"PDF (รอแนบไฟล์)":"PDF"}</div></div><div class="dialog-price">${item.type==="free"?"ฟรี":`฿${item.price} <small>/ ${esc(item.priceUnit||"วิชา")}</small>`}</div><div class="dialog-actions">${item.type==="free"?(download?`<a class="button primary" href="${esc(download)}" target="_blank" rel="noopener noreferrer">${icon("download")}เปิดไฟล์ PDF</a>`:`<button class="button primary" disabled>${icon("download")}ดาวน์โหลด PDF</button>`):`<a class="button line" href="${esc(lineUrl)}" target="_blank" rel="noopener noreferrer">${icon("chat")}สั่งซื้อ LINE</a><a class="button facebook" href="${esc(CONFIG.facebookUrl)}" target="_blank" rel="noopener noreferrer">${icon("facebook")}สั่งซื้อ Facebook</a><button class="button secondary" id="copy-order">${icon("copy")}คัดลอกชื่อชุด</button>`}</div><p class="dialog-footnote">${item.type==="free"?(download?"เปิดไฟล์ PDF เพื่อบันทึกหรือพิมพ์ใบงาน":"รายการตัวอย่างนี้ยังไม่ได้เพิ่มไฟล์ PDF"):`คัดลอกข้อความด้านล่าง แล้วส่งให้ร้านใน LINE หรือ Facebook`}</p>${item.type==="paid"?`<textarea class="order-message" id="order-message" readonly aria-label="ข้อความสั่งซื้อ">${esc(message)}</textarea>`:""}</div>`;
       initPreview(item,subjects);
       const copy=$("copy-order");
       if(copy)copy.addEventListener("click",async()=>{
